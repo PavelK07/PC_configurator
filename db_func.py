@@ -14,7 +14,7 @@ def ensure_tables(cursor):
             series INTEGER, -- номер серии 3,5,7,9
             cores INTEGER NOT NULL,
             tdp INTEGER NOT NULL,
-            performance --производительность с technical.city
+            performance FLOAT,--производительность с technical.city
             socket TEXT NOT NULL,
             release_year INTEGER,
             mem_type INTEGER NOT NULL,
@@ -89,7 +89,7 @@ def ensure_tables(cursor):
             hight FLOAT, --количество занимаемых слотов по высоте
             low_profile BOOL, --да или нет
             tdp INTEGER, --энергопотребление, можно с technical.city
-            performance --производительность с technical.city
+            performance FLOAT, --производительность с technical.city
             recomendet_power_block_power INTEGER,
             addition_power_conectors_type INTEGER, --8 or 16 pin
             addition_power_conectors_count INTEGER,
