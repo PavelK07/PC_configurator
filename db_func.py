@@ -1,33 +1,32 @@
 def db_connect(db_file_name):
-    # Подключение к файлу бд (создаётся автоматически, если не существует)
     conn = sqlite3.connect(db_file_name)
     cursor = conn.cursor()
-    return cursor
+    return cursor, conn
 
 def ensure_tables(cursor):
     cursor.executescript("""
         CREATE TABLE IF NOT EXISTS cpu (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT NOT NULL,
             series INTEGER, -- номер серии 3,5,7,9
             cores INTEGER NOT NULL,
             tdp INTEGER NOT NULL,
-            performance FLOAT,--производительность с technical.city
+            performance FLOAT, --производительность с technical.city
             socket TEXT NOT NULL,
             release_year INTEGER,
             mem_type INTEGER NOT NULL,
             max_mem INTEGER,
             integrated_graphics BOOL NOT NULL, --есть или нет
             pci_e_controller_version INTEGER,
-            pci_e_lines_count INTEGER,
+            pci_e_lines_count INTEGER
         );
 
         CREATE TABLE IF NOT EXISTS ram (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             mem_type INTEGER NOT NULL, --3,4 или 5 ддр
             module_count INTEGER NOT NULL, --количество в комплекте
@@ -35,13 +34,13 @@ def ensure_tables(cursor):
             module_capacity INTEGER,
             frequency INTEGER,
             timings TEXT, --пример: 'CL16-18-18-38'
-            release_year INTEGER,
+            release_year INTEGER
         );
         
-        CREATE TABLE IF NOT EXISTS motheer_board (
+        CREATE TABLE IF NOT EXISTS mother_board (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             series TEXT,
             chitset TEXT,
@@ -74,13 +73,13 @@ def ensure_tables(cursor):
             cpu_power_connector TEXT,  --6/8/8x2
             power_phases INTEGER, --10+2+1 = 10
             color TEXT,
-            release_year INTEGER,
+            release_year INTEGER
         );
         
         CREATE TABLE IF NOT EXISTS gpu (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             release_year INTEGER,
             color TEXT,
@@ -99,7 +98,7 @@ def ensure_tables(cursor):
             max_mem_bandwidth INTEGER,
             pci_e_version INTEGER,
             pci_e_lines_count INTEGER,
-            hdmi_ports_count INTEG,ER
+            hdmi_ports_count INTEGER,
             dp_ports_count INTEGER,
             vga_ports_count INTEGER,
             dvi_ports_count INTEGER,
@@ -107,26 +106,26 @@ def ensure_tables(cursor):
             dp_version TEXT,
             max_displays INTEGER,
             max_resolution TEXT,
-            rgb BOOL NOT NULL,    --есть или нет
+            rgb BOOL NOT NULL   --есть или нет
         );
 
         CREATE TABLE IF NOT EXISTS ssd_sata(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             size_type TEXT,
             capacity INTEGER NOT NULL,
             buffer BOOL,   --есть или нет
             max_speed_write INTEGER,
             max_speed_read INTEGER,
-            max_rec_lifeespan INTEGER,
+            max_rec_lifeespan INTEGER
         );
 
         CREATE TABLE IF NOT EXISTS ssd_mvme(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             form_factor TEXT,
             capacity INTEGER NOT NULL,
@@ -134,24 +133,24 @@ def ensure_tables(cursor):
             max_speed_write INTEGER,
             max_speed_read INTEGER,
             max_rec_lifeespan INTEGER,
-            pci_e_version INTEGER,
+            pci_e_version INTEGER
         );
 
         CREATE TABLE IF NOT EXISTS hdd (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             form_factor TEXT,
             capacity INTEGER NOT NULL,
             buffer BOOL,  --есть или нет
-            max_data_trans_speed INTEGER,
+            max_data_trans_speed INTEGER
         );  
 
         CREATE TABLE IF NOT EXISTS power_block (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             power INTEGER NOT NULL,
             form_factor TEXT,
@@ -162,13 +161,13 @@ def ensure_tables(cursor):
             sata_power_connector_count INTEGER,
             molex_count INTEGER,
             standart_80_plus TEXT,
-            protection_tecnologies TEXT,
+            protection_tecnologies TEXT
         );      
         
         CREATE TABLE IF NOT EXISTS cpu_cooler (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
-            prise INTEGER NOT NULL,
+            price INTEGER NOT NULL,
             brand TEXT,
             fan_power_connector INTEGER NOT NULL,
             bearing_type TEXT,
@@ -180,7 +179,7 @@ def ensure_tables(cursor):
             rgb BOOL NOT NULL,    --есть или нет
             rgb_power_connector INTEGER,
             fan_included INTEGER NOT NULL,
-            fan_size INTEGER,     --чтобы знарь какой нада, если нет комплектного
-        );
+            fan_size INTEGER     --чтобы знарь какой нада, если нет комплектного
+        )
     """)
     conn.commit()
